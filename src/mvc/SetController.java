@@ -40,7 +40,7 @@ public class SetController {
 	private Button showSet;
 	private Timeline timeline;
 	
-	private static final int NUM_ROWS = 4;
+	private static final int NUM_ROWS = 5;
 	private static final int NUM_COLS = 3;
 	private static final int NUM_CARDS_ON_TABLE = NUM_ROWS * NUM_COLS;
 
@@ -201,7 +201,7 @@ public class SetController {
 	private void handleSet() {
 		System.out.println("SET!");
 		
-		boolean shouldNotAddMore = myGrid.getChildrenUnmodifiable().size() > 12;
+		boolean shouldNotAddMore = myGrid.getChildrenUnmodifiable().size() > NUM_CARDS_ON_TABLE;
 		//we just added three extra due to no set, so now we shouldn't replace them
 
 		for (SetCard card : mySelected) {
@@ -240,9 +240,9 @@ public class SetController {
 		
 		//some janky ass logic here
 
-		if(myGrid.getChildrenUnmodifiable().size() == 12){
+		if(myGrid.getChildrenUnmodifiable().size() == NUM_CARDS_ON_TABLE){
 			
-			//first find where the 1 or 2 empty positions in the normal 12 cards are
+			//first find where the 1 or 2 empty positions in the normal <12> cards are
 			List<int[]> emptyPositions = new ArrayList<int[]>();
 			for (int i = 0; i < 4; i++) {
 				for (int j = 0; j < 3; j++) {
@@ -300,12 +300,12 @@ public class SetController {
 	}
 	
 	private void addThreeMoreCards(){
-		if(myGrid.getChildrenUnmodifiable().size() == 12){
+		if(myGrid.getChildrenUnmodifiable().size() == NUM_CARDS_ON_TABLE){
 			for(int i = 0; i <= 2; i++){				
 				addNewCardToGrid(i, 4);
 			}
 		}
-		else if(myGrid.getChildrenUnmodifiable().size() == 15){
+		else if(myGrid.getChildrenUnmodifiable().size() == NUM_CARDS_ON_TABLE + 3){
 			for(int i = 0; i <= 2; i++){
 				addNewCardToGrid(i, 5);
 			}

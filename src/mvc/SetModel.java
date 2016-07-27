@@ -13,15 +13,19 @@ import cards.CardColor;
 import cards.CardFill;
 import cards.CardNumber;
 import cards.CardShape;
+import cards.CardTilt;
 import cards.SetCard;
 
 public class SetModel {
 	
-	private CardColor[] myPossibleColors = {CardColor.green, CardColor.orange, CardColor.purple};
-	private CardShape[] myPossibleShapes = {CardShape.circle, CardShape.diamond, CardShape.squiggly};
-	private CardFill[] myPossibleFills = {CardFill.empty, CardFill.lined, CardFill.full};
-	private CardNumber[] myPossibleNumbers = {CardNumber.one, CardNumber.two, CardNumber.three};
+	private CardColor[] myPossibleColors;
+	private CardShape[] myPossibleShapes;
+	private CardFill[] myPossibleFills;
+	private CardNumber[] myPossibleNumbers;
+	private CardTilt[] myPossibleTilts;
 
+	
+	private boolean isAdv = true;
 	
 	private Stack<SetCard> myDeck;
 	private List<SetCard> myCardsOnTable;
@@ -32,6 +36,18 @@ public class SetModel {
 
 	public SetModel(){
 		myCardsOnTable = new ArrayList<SetCard>();
+		
+		myPossibleColors = new CardColor[] {CardColor.green, CardColor.orange, CardColor.purple};
+		myPossibleShapes = new CardShape[] {CardShape.circle, CardShape.diamond, CardShape.squiggly};
+		myPossibleFills = new CardFill[] {CardFill.empty, CardFill.lined, CardFill.full};
+		myPossibleNumbers = new CardNumber[] {CardNumber.one, CardNumber.two, CardNumber.three};
+		
+		if(isAdv){
+			myPossibleTilts = new CardTilt[] {CardTilt.straight, CardTilt.left, CardTilt.right};
+		} else {
+			myPossibleTilts = new CardTilt[] {CardTilt.straight};
+		}
+		
 		myDeck = this.createDeck();
 	}
 	
@@ -47,8 +63,10 @@ public class SetModel {
 			for(CardShape shape : myPossibleShapes){
 				for(CardColor color : myPossibleColors){
 					for(CardFill fill : myPossibleFills){
-						SetCard card = new SetCard(num, shape, color, fill);
-						deck.push(card);
+						for(CardTilt tilt : myPossibleTilts){
+							SetCard card = new SetCard(num, shape, color, fill, tilt);
+							deck.push(card);
+						}
 					}
 				}
 			}
@@ -125,10 +143,16 @@ public class SetModel {
 		checkSetFill.add(card2.getFill());
 		checkSetFill.add(card3.getFill());
 		
+		Set<CardTilt> checkSetTilt = new HashSet<CardTilt>();
+		checkSetTilt.add(card1.getTilt());
+		checkSetTilt.add(card2.getTilt());
+		checkSetTilt.add(card3.getTilt());
+		
 		return  checkSetColor.size() != 2 &&
 				checkSetNumber.size() != 2 &&
 		        checkSetShape.size() != 2 &&
-		        checkSetFill.size() != 2;
+		        checkSetFill.size() != 2 &&
+		        checkSetTilt.size() != 2;
 
 	}
 	

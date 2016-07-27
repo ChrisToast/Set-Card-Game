@@ -20,6 +20,7 @@ public class CardDrawer {
 	
 	private Map<CardNumber, Integer> myNumberMap;
 	private Map<CardColor, Color> myColorMap;
+	private Map<CardTilt, Integer> myTiltMap;
 	
 	
 	public CardDrawer(){
@@ -33,9 +34,14 @@ public class CardDrawer {
 		myColorMap.put(CardColor.green, Color.rgb(42, 212, 56));
 		myColorMap.put(CardColor.orange, Color.rgb(242, 102, 56));
 		myColorMap.put(CardColor.purple, Color.rgb(135, 70, 179));
+		
+		myTiltMap = new HashMap<CardTilt, Integer>();
+		myTiltMap.put(CardTilt.straight, 0);
+		myTiltMap.put(CardTilt.left, -45);
+		myTiltMap.put(CardTilt.right, 45);
 	}
 	
-	public HBox drawCard(CardColor color, CardFill fill, CardNumber num, CardShape shape){
+	public HBox drawCard(CardColor color, CardFill fill, CardNumber num, CardShape shape, CardTilt tilt){
 		HBox card = new HBox();
 		card.setPrefSize(180, 90);
 		card.setSpacing(15);
@@ -44,13 +50,13 @@ public class CardDrawer {
 		card.setAlignment(Pos.CENTER);
 		
 		for(int i = 0; i < myNumberMap.get(num).intValue(); i++){
-			card.getChildren().add(drawShape(shape, color, fill));
+			card.getChildren().add(drawShape(shape, color, fill, tilt));
 		}	
 		
 		return card;
 	}
 	
-	private HBox drawShape(CardShape shape, CardColor color, CardFill fill){
+	private HBox drawShape(CardShape shape, CardColor color, CardFill fill, CardTilt tilt){
 		HBox box = new HBox();
 		//box.setStyle("-fx-border-color: black;");
 		Path path = null;
@@ -195,8 +201,7 @@ public class CardDrawer {
 			
 		}
 		
-        //path.setScaleY(.85);
-		//path.setRotate(45);
+		path.setRotate(myTiltMap.get(tilt));
 		
 		box.getChildren().addAll(path);
 		

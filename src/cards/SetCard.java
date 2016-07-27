@@ -12,6 +12,7 @@ public class SetCard {
 	private CardShape myCardShape;
 	private CardColor myCardColor;
 	private CardFill myCardFill;
+	private CardTilt myTilt;
 	
 	private boolean isSelected = false;
 	private EventHandler<MouseEvent> myOnClick;
@@ -19,16 +20,20 @@ public class SetCard {
 	private HBox myCardDrawing;
 	
 	public SetCard(CardNumber num, CardShape shape, CardColor color, CardFill fill){
+		this(num, shape, color, fill, CardTilt.straight);
+	}
+	
+	public SetCard(CardNumber num, CardShape shape, CardColor color, CardFill fill, CardTilt tilt){
 		myCardNumber = num;
 		myCardShape = shape;
 		myCardColor = color;
 		myCardFill = fill;
-		
+		myTilt = tilt;		
 		myCardDrawing = this.drawMyShape();
 	}
 	
 	private HBox drawMyShape(){
-		HBox card = new CardDrawer().drawCard(myCardColor, myCardFill, myCardNumber, myCardShape);
+		HBox card = new CardDrawer().drawCard(myCardColor, myCardFill, myCardNumber, myCardShape, myTilt);
 		//card.setOnMouseClicked(myOnClick);
 		return card;
 	
@@ -48,6 +53,10 @@ public class SetCard {
 	
 	public CardFill getFill(){
 		return myCardFill;
+	}
+	
+	public CardTilt getTilt(){
+		return myTilt;
 	}
 	
 	public boolean isSelected(){
